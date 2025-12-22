@@ -6,12 +6,36 @@ services:
         image: postgres:16
         restart: always
         ports:
-            - "8051:5432" 
+            - "8052:5432"
         environment:
             POSTGRES_PASSWORD: postgres
         volumes:
-            - ./back/dumps/main.sql:/docker-entrypoint-initdb.d/main.sql
+            - ./dumps/main.sql:/docker-entrypoint-initdb.d/main.sql
+            - ./dumps:/dumps
             - ./db_data:/var/lib/postgresql/data
+
+    api:
+        links:
+            - database
+        image: api
+        restart: always
+        ports:
+            - "8051:8000"
+        environment:
+            DB_NAME: postgres
+            DB_PORT: 5432
+            DB_PASS: postgres
+            DB_USER: postgres
+            DB_HOST: database
+        env_file:
+            - .env
+        build: ./core
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "10m"
+                max-file: "10"
+        command: python -m uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload
             
 volumes:
     data:

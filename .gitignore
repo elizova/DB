@@ -7,7 +7,6 @@ db_data/
 *.xlsx
 *.python
 *.dump
-*.sql
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
