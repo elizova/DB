@@ -24,5 +24,5 @@ see-db:
 see-api:
 	docker compose -f docker-compose.yml logs -f api --since $(time)
 
-gen-dump:
+dump:
 	docker compose -f docker-compose.yml exec database sh -c 'pg_dump -h 127.0.0.1 --username=postgres -d postgres > dumps/$$(date +'%Y-%m-%d_%H-%M-%S').dump'
