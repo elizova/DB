@@ -3,7 +3,7 @@ start:
 
 update-api:
 	docker compose -f docker-compose.yml exec -w /core api rm -r src
-	docker compose -f docker-compose.yml cp ./api/src api:core
+	docker compose -f docker-compose.yml cp ./core/src api:core
 
 update-db:
 	docker compose -f docker-compose.yml exec -w /core api python -m alembic upgrade head
@@ -14,9 +14,9 @@ update-pkgs:
 	docker compose -f docker-compose.yml restart api
 
 new-migr:
-	docker compose -f docker-compose.yml cp ./api/src/database api:/core/src
+	docker compose -f docker-compose.yml cp ./core/src/database api:/core/src
 	docker compose -f docker-compose.yml exec -w /core api python -m alembic revision --autogenerate -m "$(name)"
-	docker compose -f docker-compose.yml cp api:/core/src/migrations/versions ./api/src/migrations
+	docker compose -f docker-compose.yml cp api:/core/src/migrations/versions ./core/src/migrations
 
 see-db:
 	docker compose -f docker-compose.yml exec database psql -U postgres
