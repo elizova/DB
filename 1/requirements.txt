@@ -1,5 +1,5 @@
-fastapi[all]
 playwright
 sqlalchemy
 psycopg2-binary
 alembic
+ipykernel

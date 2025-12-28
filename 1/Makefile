@@ -1,6 +1,8 @@
 start:
 	docker compose -f docker-compose.yml up --build -d
 
+	docker compose -f docker-compose.yml exec -w /core api python -m alembic upgrade head
+
 update-api:
 	docker compose -f docker-compose.yml exec -w /core api rm -r src
 	docker compose -f docker-compose.yml cp ./core/src api:core
@@ -9,7 +11,7 @@ update-db:
 	docker compose -f docker-compose.yml exec -w /core api python -m alembic upgrade head
 
 update-pkgs:
-	docker compose -f docker-compose.yml cp ./api/requirements.txt api:/core
+	docker compose -f docker-compose.yml cp ./core/requirements.txt api:/core
 	docker compose -f docker-compose.yml exec -w /core api pip install -r requirements.txt
 	docker compose -f docker-compose.yml restart api
 
