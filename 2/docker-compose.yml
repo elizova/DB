@@ -1,0 +1,19 @@
+name: db-lab-2
+
+services:
+
+    database:
+        image: postgres:16
+        restart: always
+        ports:
+            - "8054:5432"
+        environment:
+            POSTGRES_PASSWORD: postgres
+        volumes:
+            - ./dumps/main.sql:/docker-entrypoint-initdb.d/main.sql
+            - ./dumps:/dumps
+            - ./db_data:/var/lib/postgresql/data
+
+volumes:
+    data:
+        driver: local
